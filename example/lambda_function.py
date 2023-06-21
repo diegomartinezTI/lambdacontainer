@@ -35,6 +35,7 @@ def handler(event, context):
 
 
 def encrypt_file(file_name):
+    lst = os.listdir("/tmp")
     gpg_homeshort = "/tmp"
     gpg = gnupg.GPG(gnupghome=gpg_homeshort, verbose=True)
     key = open("/tmp/{KEY_NAME}", "rb").read()
