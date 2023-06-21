@@ -12,22 +12,23 @@ def handler(event, context):
     my_bucket = s3.Bucket('merchantkey')
     try:
         my_bucket.download_file(KEY_NAME, f"/tmp/{KEY_NAME}")
+        items = []
+    
+        for my_bucket_object in my_bucket.objects.all():
+            file = my_bucket_object.key
+            items.append(file)
+            my_bucket.download_file(f"{file}", f"/tmp/{file}") 
+        
+        for file in items:
+            result = encrypt_file(f"/tmp/{file}") 
+            print(result) 
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code'] == "404":
             print("The object does not exist.",str(e))
         else:
-            print("The object does not exist.",str(e))
+            print("The object have error.",str(e))
   
-    items = []
     
-    for my_bucket_object in my_bucket.objects.all():
-        file = my_bucket_object.key
-        items.append(file)
-        my_bucket.download_file(f"{file}", f"/tmp/{file}") 
-    
-    for file in items:
-        result = encrypt_file(f"/tmp/{file}") 
-        print(result) 
     return f'Gpg encrypt ok'       
 
 
