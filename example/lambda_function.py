@@ -6,10 +6,12 @@ from botocore.exceptions import (
 )
 import botocore
 
-
+ssm = boto3.client("ssm")
 session = boto3.Session( aws_access_key_id='AKIAQJZNGEWMWYXNQ3GX', aws_secret_access_key='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')
 s3 = session.resource('s3')
-KEY_NAME = "XX_AP_UPL_MERCHANT_DOCS_NPRD_.key"
+KEY_NAME = ssm.get_parameter(Name="keyname")["Parameter"]["Value"]
+EMAIL = ssm.get_parameter(Name="encryptemail")["Parameter"]["Value"]
+ 
 def handler(event, context):
     my_bucket = s3.Bucket('merchantkey')
     lst = os.listdir("/tmp")
@@ -37,10 +39,6 @@ def handler(event, context):
 
 
 def encrypt_file(file_name):
-    print("start lsitado temporal")
-    lst = os.listdir("/tmp")
-    print(lst)
-    print("end listado temporal")
     gpg_homeshort = "/tmp"
     gpg = gnupg.GPG(gnupghome=gpg_homeshort, verbose=True)
     key = open(f"/tmp/{KEY_NAME}", "rb").read()
@@ -49,7 +47,7 @@ def encrypt_file(file_name):
     with open(file_name, "rb") as f:
         status = gpg.encrypt_file(
             f,
-            recipients=["Luis.Salazar@Millicom.com"],
+            recipients=[EMAIL],
             output=f"/tmp/{file_name}.gpg",
             always_trust=True,
             extra_args=["--yes"],
