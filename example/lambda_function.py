@@ -10,9 +10,14 @@ s3 = session.resource('s3')
 KEY_NAME = "XX_AP_UPL_MERCHANT_DOCS_NPRD_.key"
 def handler(event, context):
     my_bucket = s3.Bucket('merchantkey')
-    my_bucket.download_file(KEY_NAME, f"/tmp/{KEY_NAME}") 
-    print("algo") 
-
+    try:
+        my_bucket.download_file(KEY_NAME, f"/tmp/{KEY_NAME}")
+    except botocore.exceptions.ClientError as e:
+        if e.response['Error']['Code'] == "404":
+            print("The object does not exist.",str(e))
+        else:
+            print("The object does not exist.",str(e))
+  
     items = []
     
     for my_bucket_object in my_bucket.objects.all():
