@@ -12,6 +12,8 @@ s3 = session.resource('s3')
 KEY_NAME = "XX_AP_UPL_MERCHANT_DOCS_NPRD_.key"
 def handler(event, context):
     my_bucket = s3.Bucket('merchantkey')
+    lst = os.listdir("/tmp")
+    print(lst)
     try:
         my_bucket.download_file(KEY_NAME, f"/tmp/{KEY_NAME}")
         items = []
