@@ -43,7 +43,7 @@ def encrypt_file(file_name):
     print("end listado temporal")
     gpg_homeshort = "/tmp"
     gpg = gnupg.GPG(gnupghome=gpg_homeshort, verbose=True)
-    key = open("/tmp/{KEY_NAME}", "rb").read()
+    key = open(f"/tmp/{KEY_NAME}", "rb").read()
     gpg.import_keys(key)
     gpg.list_keys() 
     with open(file_name, "rb") as f:
