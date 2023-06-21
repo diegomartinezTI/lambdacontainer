@@ -4,6 +4,8 @@ import boto3
 from botocore.exceptions import (
     ClientError
 )
+import botocore
+
 
 session = boto3.Session( aws_access_key_id='AKIAQJZNGEWMWYXNQ3GX', aws_secret_access_key='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')
 s3 = session.resource('s3')
