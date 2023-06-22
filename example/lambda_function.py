@@ -9,12 +9,9 @@ import botocore
 ssm = boto3.client("ssm")
 secretsmanager = boto3.client('secretsmanager')
 session = boto3.Session( aws_access_key_id='AKIAQJZNGEWMWYXNQ3GX', aws_secret_access_key='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')
-s3 = session.resource('s3')
-KEY_NAME = ssm.get_parameter(Name="keyname")["Parameter"]["Value"]
-EMAIL = ssm.get_parameter(Name="encryptemail")["Parameter"]["Value"]
-response = secretsmanager.get_secret_value(
-    SecretId='asssss',
-)
+s3 = session.resource('s3') 
+KEY_NAME = secretsmanager.get_secret_value(SecretId='dev-hn-merchantplatform-KeyEncrypt')
+EMAIL = secretsmanager.get_secret_value(SecretId='dev-hn-merchantplatform-EmailEncrypt')
 
 print("response ===> ",response)
 
