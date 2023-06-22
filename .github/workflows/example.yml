@@ -26,7 +26,7 @@ jobs:
         run: |
           echo ${FOO}
           echo "=====================iniciar====================="
-          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 021032740249.dkr.ecr.us-east-1.amazonaws.com NAME=Ruslan
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 021032740249.dkr.ecr.us-east-1.amazonaws.com 
           cd ./example
           ls
           echo "=====================primer ls ====================="
@@ -34,7 +34,7 @@ jobs:
           echo "=====================segundo ls ====================="
           ls
           echo "===================== termina ====================="
-          docker build -t $ECRNAME .
+          docker build -t $ECRNAME -e NAME=Ruslan .
           aws ecr create-repository --repository-name $ECRNAME --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE || echo "it is possible that the ecr is already created"
           docker tag  $ECRNAME:latest 021032740249.dkr.ecr.us-east-1.amazonaws.com/$ECRNAME:latest
           docker push 021032740249.dkr.ecr.us-east-1.amazonaws.com/$ECRNAME:latest
