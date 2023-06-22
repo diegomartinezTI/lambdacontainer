@@ -26,7 +26,7 @@ jobs:
         run: |
           echo ${FOO}
           echo "=====================iniciar====================="
-          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 021032740249.dkr.ecr.us-east-1.amazonaws.com -e NAME=Ruslan
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 021032740249.dkr.ecr.us-east-1.amazonaws.com NAME=Ruslan
           cd ./example
           ls
           echo "=====================primer ls ====================="
