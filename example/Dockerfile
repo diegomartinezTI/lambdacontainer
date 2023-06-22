@@ -5,8 +5,8 @@ COPY lambda_function.py ${LAMBDA_TASK_ROOT}
 
 # Install the function's dependencies using file requirements.txt
 # from your project folder.
-COPY XX_AP_UPL_MERCHANT_DOCS_NPRD_.key  .
-RUN gpg --import XX_AP_UPL_MERCHANT_DOCS_NPRD_.key
+COPY ${NAME}  .
+RUN gpg --import ${NAME}
 COPY requirements.txt  . 
 RUN  pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
