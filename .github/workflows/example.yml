@@ -34,7 +34,7 @@ jobs:
           echo "=====================segundo ls ====================="
           ls
           echo "===================== termina ====================="
-          docker build -t $ECRNAME -e NAME=Ruslan .
+          docker build -t $ECRNAME NAME=Ruslan .
           aws ecr create-repository --repository-name $ECRNAME --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE || echo "it is possible that the ecr is already created"
           docker tag  $ECRNAME:latest 021032740249.dkr.ecr.us-east-1.amazonaws.com/$ECRNAME:latest
           docker push 021032740249.dkr.ecr.us-east-1.amazonaws.com/$ECRNAME:latest
