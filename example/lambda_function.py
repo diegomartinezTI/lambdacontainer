@@ -12,7 +12,7 @@ session = boto3.Session( aws_access_key_id='AKIAQJZNGEWMWYXNQ3GX', aws_secret_ac
 s3 = session.resource('s3')
 KEY_NAME = ssm.get_parameter(Name="keyname")["Parameter"]["Value"]
 EMAIL = ssm.get_parameter(Name="encryptemail")["Parameter"]["Value"]
-response = client.get_secret_value(
+response = secretsmanager.get_secret_value(
     SecretId='asssss',
 )
 
