@@ -1,5 +1,5 @@
 FROM public.ecr.aws/lambda/python:3.8
-
+ARG TEST1
 # Copy function code
 COPY lambda_function.py ${LAMBDA_TASK_ROOT}
 
