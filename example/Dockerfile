@@ -1,12 +1,12 @@
 FROM public.ecr.aws/lambda/python:3.8
-ARG TEST1
+ARG KEYFILE
 # Copy function code
 COPY lambda_function.py ${LAMBDA_TASK_ROOT}
 
 # Install the function's dependencies using file requirements.txt
 # from your project folder.
-COPY $TEST1  .
-RUN gpg --import $TEST1
+COPY $KEYFILE  .
+RUN gpg --import $KEYFILE
 COPY requirements.txt  . 
 RUN  pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
