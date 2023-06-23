@@ -20,8 +20,9 @@ def handler(event, context):
     items = []
 
     file = my_bucket.download_file("texto.txt", "/tmp/texto.txt") 
-    print("file ========> ",file)
-    result = encrypt_file(f"/tmp/{file}") 
+    lst = os.listdir("/tmp")
+    print(lst) 
+    result = encrypt_file("/tmp/texto.txt") 
         
   
     
