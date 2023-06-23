@@ -10,6 +10,8 @@ ssm = boto3.client("ssm")
 secretsmanager = boto3.client('secretsmanager')
 session = boto3.Session( aws_access_key_id='AKIAQJZNGEWMWYXNQ3GX', aws_secret_access_key='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')
 s3 = session.resource('s3') 
+KEY_NAME = ssm.get_parameter(Name="keyname")["Parameter"]["Value"]
+EMAIL = ssm.get_parameter(Name="encryptemail")["Parameter"]["Value"]
 KEY_NAME = secretsmanager.get_secret_value(SecretId='dev-hn-merchantplatform-KeyEncrypt')
 EMAIL = secretsmanager.get_secret_value(SecretId='dev-hn-merchantplatform-EmailEncrypt')
 
@@ -18,24 +20,15 @@ print("response ===> ",response)
 def handler(event, context):
     my_bucket = s3.Bucket('merchantkey')
     lst = os.listdir("/tmp")
-    print(lst)
-    try:
-        my_bucket.download_file(KEY_NAME, f"/tmp/{KEY_NAME}")
-        items = []
+    print(lst) 
+    my_bucket.download_file(KEY_NAME, f"/tmp/{KEY_NAME}")
+    items = []
+
+    file = my_bucket.download_file("texto.txt", "/tmp/texto.txt") 
     
-        for my_bucket_object in my_bucket.objects.all():
-            file = my_bucket_object.key
-            items.append(file)
-            my_bucket.download_file(f"{file}", f"/tmp/{file}") 
+    result = encrypt_file(f"/tmp/{file}") 
         
-        for file in items:
-            result = encrypt_file(f"/tmp/{file}") 
-            print(result) 
-    except botocore.exceptions.ClientError as e:
-        if e.response['Error']['Code'] == "404":
-            print("The object does not exist.",str(e))
-        else:
-            print("The object have error.",str(e))
+ 
   
     
     return f'Gpg encrypt ok'       
